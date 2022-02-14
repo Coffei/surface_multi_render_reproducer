@@ -1,18 +1,15 @@
-# SurfaceMultiRenderReproducer
+# Surface multi-render bug reproducer
 
-To start your Phoenix server:
+This reproducer describes a strange behavior in Surface which started with 0.7.0
+(or somewhere between 0.5.1 and that version).
 
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+If you use components with multiple render functions, `:on-click` events in the
+inner render functions are not rendered properly. See
+lib/surface_multi_render_reproducer_web/components/hero.ex for example.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## To reproduce
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+1. Download the dependencies - `mix deps.get`
+2. Run the app - `iex -S mix phx.server`
+3. Open up the page - http://localhost:4000/demo
+4. Try clicking the two buttons and/or inspect the HTML
