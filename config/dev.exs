@@ -45,10 +45,11 @@ config :surface_multi_render_reproducer, SurfaceMultiRenderReproducerWeb.Endpoin
 
 # Watch static and templates for browser reloading.
 config :surface_multi_render_reproducer, SurfaceMultiRenderReproducerWeb.Endpoint,
+  reloadable_compilers: [:gettext, :elixir, :surface],
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"lib/surface_multi_render_reproducer_web/(live|views)/.*(ex)$",
+      ~r"lib/surface_multi_render_reproducer_web/(live|views|components)/.*(ex|sface|js)$",
       ~r"lib/surface_multi_render_reproducer_web/templates/.*(eex)$"
     ]
   ]
