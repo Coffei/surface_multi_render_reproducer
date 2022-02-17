@@ -22,14 +22,14 @@ defmodule SurfaceMultiRenderReproducerWeb.Components.Hero do
       <p>{@subtitle}</p>
       <p>Time is {@time}</p>
       <p><button :on-click="click">Click me in render/1.</button></p>
-      {render_click(assigns)}
+      <.render_click target={@myself} />
     </section>
     """
   end
 
   defp render_click(assigns) do
     ~F"""
-    <p><button :on-click="click">Click me in render_click/1.</button></p>
+    <p><button :on-click={"click", target: @target}>Click me in render_click/1.</button></p>
     """
   end
 
