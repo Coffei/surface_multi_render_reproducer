@@ -12,4 +12,4 @@ lib/surface_multi_render_reproducer_web/components/hero.ex for example.
 1. Download the dependencies - `mix deps.get`
 2. Run the app - `iex -S mix phx.server`
 3. Open up the page - http://localhost:4000/demo
-4. Try clicking the two buttons and/or inspect the HTML
+4. Try uploading a file and check logs.

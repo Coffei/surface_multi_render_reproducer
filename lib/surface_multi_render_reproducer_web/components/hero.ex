@@ -15,15 +15,34 @@ defmodule SurfaceMultiRenderReproducerWeb.Components.Hero do
 
   data time, :integer, default: 0
 
+  def mount(socket) do
+    {:ok, allow_upload(socket, :upload, accept: :any)}
+  end
+
   def render(assigns) do
     ~F"""
-    <section class={"phx-hero", "alert-#{@color}": @color}>
-      <h1>Hi, {@name}</h1>
-      <p>{@subtitle}</p>
-      <p>Time is {@time}</p>
-      <p><button :on-click="click">Click me in render/1.</button></p>
-      <.render_click target={@myself} />
-    </section>
+    <div>
+      <section class={"phx-hero", "alert-#{@color}": @color}>
+        <h1>Hi, {@name}</h1>
+        <p>{@subtitle}</p>
+        <p>Time is {@time}</p>
+        <p><button :on-click="click">Click me in render/1.</button></p>
+        <.render_click target={@myself} />
+      </section>
+      <section class="phx-hero">
+        <h1>Upload test</h1>
+        <p>
+          <form :on-submit="upload-submit" :on-change="upload-validate">
+            {live_file_input(@uploads.upload)}
+            {#for entry <- @uploads.upload.entries}
+              <span>{entry.client_name}</span>
+              <progress value={entry.progress} max="100">{entry.progress}%</progress>
+            {/for}
+            <button type="submit">Submit</button>
+          </form>
+        </p>
+      </section>
+    </div>
     """
   end
 
@@ -35,5 +54,20 @@ defmodule SurfaceMultiRenderReproducerWeb.Components.Hero do
 
   def handle_event("click", _, socket) do
     {:noreply, assign(socket, time: System.os_time())}
+  end
+
+  def handle_event("upload-validate", _, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("upload-submit", _, socket) do
+    files =
+      consume_uploaded_entries(socket, :upload, fn %{path: path}, _entry ->
+        {:ok, File.read!(path)}
+      end)
+
+    IO.inspect(files, label: "Uploaded files")
+
+    {:noreply, socket}
   end
 end
